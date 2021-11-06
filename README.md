@@ -10,9 +10,9 @@ Opencv's `cv::VideoWriter` is a pain to use.
 
 ## The easy solution
 
-Unsurprisingly, many other people have noticed the issue and the [most upvoted solution](https://stackoverflow.com/questions/38686359/opencv-videowriter-control-bitrate) on stackoverflow recommends (at least for python) opening a subprocess with ffmpeg and passing frames as JPEGs. Now there are better formats to pass frames into ffmpeg than JPEG and you would be better off really adapting this pipeline for your own usecase, but the bigger problem is that due to the limitations of python multiprocessing, the shells created this way are not freed as long as the parent python program is running (effin' GIL). This lead of all kinds of ugliness. For example, if you are making many videos from one python script, videos which have finished writing will not be viewable in vlc/ffplay/etc until all the videos have finished processing.
+Unsurprisingly, many other people have noticed the issue and the [most upvoted solution](https://stackoverflow.com/questions/38686359/opencv-videowriter-control-bitrate) on stackoverflow recommends (at least for python) opening a subprocess with ffmpeg and passing frames as JPEGs. Now there are better formats to pass frames into ffmpeg than JPEG and you would be better off really adapting this pipeline for your own usecase, but the bigger problem is that due to the limitations of python multiprocessing, the shells created this way are not freed as long as the parent python program is running (effin' GIL). This lead of all kinds of ugliness. For example, if you are making many videos from one python script, videos which have finished writing will not be viewable in vlc/ffplay/etc until all the videos have finished processing and the parent python script has exited.
 
-## Whay this project?
+## Why this project?
 In spite of its limitations, the easy solution works and 99% of users don't need anything else, but if video processing is an essential part of your workflow, you might find it worthwhile to invest in a more satisfying solution. This is where this project comes in. We use LibAV, the backend behind ffmpeg to build a simple video writer object which can be used in C++ an python.
 
 ## Status
@@ -57,3 +57,6 @@ x=np.ones((height, width, 3), dtype=np.uint8)
 writer.write(x)
 ```
 Currently the `write` method accepts pointers and is not ready for use in python.
+
+## Credits
+In making this project, I have learnt a lot from the excellent work of [Bartholomew Joyce](https://github.com/bartjoyce), his [videos](https://www.youtube.com/watch?v=MEMzo59CPr8) and [git repo](https://github.com/bartjoyce/video-app). It helped me st up the environment and get a feel for the funcitons of libav. The difference between his repo and this is that I want to encode rather than decode.

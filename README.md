@@ -8,6 +8,8 @@ Opencv's `cv::VideoWriter` is a pain to use.
 - It hides the critical choice of encoders behind an obscure fourcc code and it isn't always transparent which codecs are available for use on the system. This is because opencv depends on a number of [backends](https://docs.opencv.org/3.4.15/d0/da7/videoio_overview.html) like ffmpeg and VFW. If you are someone who codes a lot on multiple systems (linux/mac/win/x86/arm) and embedded boards, this can quickly become frustrating.
 - Even setting aside the issue of codecs, `cv::VideoWriter` doesn't let you set important parameters like bitrate and pixel format.
 
+Wouldn't it be nice if there were a lightweight and transparent API for writing videos using hardware acceleration on python and C++?
+
 ## The easy solution
 
 Unsurprisingly, many other people have noticed the issue and the [most upvoted solution](https://stackoverflow.com/questions/38686359/opencv-videowriter-control-bitrate) on stackoverflow recommends (at least for python) opening a subprocess with ffmpeg and passing frames as JPEGs. Now there are better formats to pass frames into ffmpeg than JPEG and you would be better off really adapting this pipeline for your own usecase, but the bigger problem is that due to the limitations of python multiprocessing, the shells created this way are not freed as long as the parent python program is running (effin' GIL). This lead of all kinds of ugliness. For example, if you are making many videos from one python script, videos which have finished writing will not be viewable in vlc/ffplay/etc until all the videos have finished processing and the parent python script has exited.
@@ -57,6 +59,11 @@ x=np.ones((height, width, 3), dtype=np.uint8)
 writer.write(x)
 ```
 Currently the `write` method accepts pointers and is not ready for use in python.
+
+- Make write method functional.
+- Add support for writing cvMat as frame.
+- Add support for python.
+- Make C++ and python examples
 
 ## Credits
 In making this project, I have learnt a lot from the excellent work of [Bartholomew Joyce](https://github.com/bartjoyce), his [videos](https://www.youtube.com/watch?v=MEMzo59CPr8) and [git repo](https://github.com/bartjoyce/video-app). It helped me set up the environment and get a feel for the functions of libav. The difference between his repo and this is that I want to encode rather than decode.

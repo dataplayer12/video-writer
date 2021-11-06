@@ -59,4 +59,4 @@ writer.write(x)
 Currently the `write` method accepts pointers and is not ready for use in python.
 
 ## Credits
-In making this project, I have learnt a lot from the excellent work of [Bartholomew Joyce](https://github.com/bartjoyce), his [videos](https://www.youtube.com/watch?v=MEMzo59CPr8) and [git repo](https://github.com/bartjoyce/video-app). It helped me st up the environment and get a feel for the funcitons of libav. The difference between his repo and this is that I want to encode rather than decode.
+In making this project, I have learnt a lot from the excellent work of [Bartholomew Joyce](https://github.com/bartjoyce), his [videos](https://www.youtube.com/watch?v=MEMzo59CPr8) and [git repo](https://github.com/bartjoyce/video-app). It helped me set up the environment and get a feel for the functions of libav. The difference between his repo and this is that I want to encode rather than decode.
